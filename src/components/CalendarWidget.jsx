@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Sun, CloudRain, Cloud, Sprout, CheckCircle2 } from 'lucide-react';
 
 const CalendarWidget = () => {
   const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const dates = Array.from({ length: 31 }, (_, i) => i + 1);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const getWeatherIcon = (day) => {
-    if (day % 3 === 0) return <CloudRain className="w-3 h-3 text-blue-400" />;
-    if (day % 5 === 0) return <Cloud className="w-3 h-3 text-gray-400" />;
-    return <Sun className="w-3 h-3 text-yellow-500" />;
+    if (day % 3 === 0) return <CloudRain className="w-5 h-5 text-blue-400" />;
+    if (day % 5 === 0) return <Cloud className="w-5 h-5 text-gray-400" />;
+    return <Sun className="w-5 h-5 text-yellow-500" />;
+  };
+
+  const handleDateClick = (date) => {
+    setSelectedDate(`Oct ${date}, 2026`);
   };
 
   return (
@@ -43,23 +48,30 @@ const CalendarWidget = () => {
           {dates.map(date => (
             <div 
               key={date} 
+              onClick={() => handleDateClick(date)}
               className={`h-12 lg:h-14 rounded-lg flex flex-col items-center justify-center relative cursor-pointer hover:bg-earth-100 transition-colors ${
                 date === 15 ? 'bg-earth-600 text-white font-bold hover:bg-earth-700' : 'text-earth-800 bg-clay-50'
-              }`}
+              } ${selectedDate === 'Oct ' + date + ', 2026' ? 'ring-2 ring-earth-500 ring-offset-1' : ''}`}
             >
               <span className="text-sm z-10">{date}</span>
               
               {/* Event Indicators */}
-              <div className="absolute top-1 right-1 opacity-70">
+              <div className="absolute top-1 right-1 opacity-60">
                 {getWeatherIcon(date)}
               </div>
-              <div className="absolute bottom-1 flex space-x-0.5">
-                {date === 18 && <Sprout className="w-3 h-3 text-green-500" />}
-                {date === 22 && <CheckCircle2 className="w-3 h-3 text-earth-500" />}
+              <div className="absolute bottom-1.5 flex space-x-1">
+                {date === 18 && <div className="w-1.5 h-1.5 rounded-full bg-green-500" title="Tomato Seeding"></div>}
+                {date === 22 && <div className="w-1.5 h-1.5 rounded-full bg-orange-500" title="Onion Harvest"></div>}
               </div>
             </div>
           ))}
         </div>
+
+        {selectedDate && (
+          <div className="mt-4 p-3 bg-earth-50 rounded-lg text-sm text-earth-700 text-center border border-earth-200 animate-in fade-in slide-in-from-top-2 duration-200">
+            <span className="font-semibold">Selected Date: {selectedDate}</span> - No specific actions scheduled.
+          </div>
+        )}
 
         <div className="mt-5 border-t border-clay-100 pt-4 space-y-3">
           <h4 className="text-sm font-semibold text-earth-800">Upcoming Milestones</h4>
