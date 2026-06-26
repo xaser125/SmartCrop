@@ -68,6 +68,10 @@ const Diagnostics = () => {
         <AlertCircle className="w-5 h-5 text-earth-500 flex-shrink-0" />
         <p>For best results, take the photo focusing on the affected area of the plant with a neutral background.</p>
       </div>
+
+      <div className="mt-4 text-center">
+        <p className="text-[10px] text-gray-400">🔒 SmartCrop AI Guardrails active: specialized exclusively in agriculture and botany.</p>
+      </div>
     </div>
   );
 };

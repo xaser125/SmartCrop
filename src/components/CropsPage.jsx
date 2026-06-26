@@ -123,6 +123,10 @@ const CropsPage = () => {
                       )}
                     </div>
                   </div>
+                  
+                  <p className="text-[10px] text-gray-400 text-center pt-2">
+                    🔒 SmartCrop AI Guardrails active: specialized exclusively in agriculture and botany.
+                  </p>
                 </div>
               )}
 
