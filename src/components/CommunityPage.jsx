@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Users, Send, Image as ImageIcon, Heart, MessageCircle, Share2, Award, Zap } from 'lucide-react';
 
 const posts = [
@@ -33,6 +33,19 @@ const leaders = [
 ];
 
 const CommunityPage = () => {
+  const [replies, setReplies] = useState({});
+
+  const handleAiDraft = (postId) => {
+    setReplies(prev => ({
+      ...prev,
+      [postId]: 'I had a similar issue last season! Ensure good airflow and maybe try a diluted neem oil spray. Let the community know how it goes!'
+    }));
+  };
+
+  const handleReplyChange = (postId, text) => {
+    setReplies(prev => ({ ...prev, [postId]: text }));
+  };
+
   return (
     <div className="animate-in fade-in zoom-in-95 duration-300">
       <div className="mb-8">
@@ -122,12 +135,23 @@ const CommunityPage = () => {
                   <div className="flex-1 relative">
                     <input 
                       type="text" 
+                      value={replies[post.id] || ''}
+                      onChange={(e) => handleReplyChange(post.id, e.target.value)}
                       placeholder="Write a quick reply..." 
-                      className="w-full bg-earth-50 border border-earth-100 rounded-full py-2 pl-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-earth-500 text-earth-800"
+                      className="w-full bg-earth-50 border border-earth-100 rounded-full py-2 pl-4 pr-[100px] text-sm focus:outline-none focus:ring-2 focus:ring-earth-500 text-earth-800"
                     />
-                    <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-earth-400 hover:text-earth-600 transition-colors p-1">
-                      <Send className="w-4 h-4" />
-                    </button>
+                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+                      <button 
+                        onClick={() => handleAiDraft(post.id)}
+                        className="text-[10px] font-medium text-clay-700 bg-clay-100 hover:bg-clay-200 px-2 py-1 rounded-full transition-colors flex items-center space-x-1 border border-clay-200"
+                      >
+                        <Zap className="w-3 h-3 text-yellow-500" />
+                        <span>AI Draft</span>
+                      </button>
+                      <button className="text-earth-400 hover:text-earth-600 transition-colors p-1.5 rounded-full hover:bg-earth-100">
+                        <Send className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
 

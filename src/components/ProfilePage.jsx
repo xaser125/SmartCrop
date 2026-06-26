@@ -102,8 +102,17 @@ const ProfilePage = () => {
                   <option>Master Botanist</option>
                 </select>
               </div>
-            </div>
 
+              <div>
+                <label className="block text-sm font-medium text-earth-800 mb-1.5">Change Email</label>
+                <input type="email" defaultValue="alex@planter.com" className="w-full bg-white border border-earth-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-earth-500 text-earth-800" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-earth-800 mb-1.5">Change Password</label>
+                <input type="password" defaultValue="********" className="w-full bg-white border border-earth-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-earth-500 text-earth-800" />
+              </div>
+            </div>
             <div className="p-5 border-t border-earth-100 bg-earth-50 flex items-center justify-end space-x-3">
               <button onClick={() => setIsEditModalOpen(false)} className="px-5 py-2.5 text-sm font-medium text-earth-600 hover:text-earth-900 transition-colors">
                 Cancel

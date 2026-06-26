@@ -16,12 +16,12 @@ import SpaceManagerModal from './components/SpaceManagerModal';
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
   const [isSpaceManagerOpen, setIsSpaceManagerOpen] = useState(false);
-  
+
   const areas = ['Balcony / Pots', 'Greenhouse', 'Open Field', 'Backyard Garden'];
   const [areaIndex, setAreaIndex] = useState(0);
 
   const renderView = () => {
-    switch(currentView) {
+    switch (currentView) {
       case 'crops':
         return <CropsPage />;
       case 'community':
@@ -46,7 +46,7 @@ function App() {
                     <p className="text-sm text-earth-600">Current: <span className="font-medium text-earth-800">Multiple Zones</span></p>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => setIsSpaceManagerOpen(true)}
                   className="flex items-center justify-center space-x-2 px-4 py-2 bg-earth-100 hover:bg-earth-200 text-earth-800 rounded-lg font-medium transition-colors text-sm border border-earth-200"
                 >
@@ -90,7 +90,7 @@ function App() {
   return (
     <div className="min-h-screen bg-earth-50 flex flex-col">
       <Header currentView={currentView} setCurrentView={setCurrentView} />
-      
+
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {renderView()}
       </main>
@@ -98,8 +98,8 @@ function App() {
       <footer className="w-full py-6 text-center text-sm text-earth-600 px-4">
         <p>* Results are estimated and depend on external factors. Actual results may vary.</p>
       </footer>
-      
-      <SpaceManagerModal 
+
+      <SpaceManagerModal
         isOpen={isSpaceManagerOpen}
         onClose={() => setIsSpaceManagerOpen(false)}
       />

@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Leaf, User, Settings, Bell } from 'lucide-react';
+import { Leaf, User, Settings, Bell, ChevronDown } from 'lucide-react';
 
 const Header = ({ currentView, setCurrentView }) => {
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showPrefs, setShowPrefs] = useState(false);
+  const [prefLevel, setPrefLevel] = useState('All Alerts');
   const notificationRef = useRef(null);
 
   useEffect(() => {
@@ -68,6 +70,32 @@ const Header = ({ currentView, setCurrentView }) => {
                   <p className="text-sm text-earth-800 font-medium">Agronomic Alert: Frost Warning</p>
                   <p className="text-xs text-earth-600 mt-0.5">Cover basil overnight, temperatures dropping.</p>
                 </div>
+                
+                <div 
+                  onClick={() => setShowPrefs(!showPrefs)}
+                  className="px-4 py-2 border-t border-earth-100 bg-earth-50 hover:bg-earth-100 cursor-pointer flex items-center justify-between transition-colors"
+                >
+                  <span className="text-xs font-medium text-earth-700 flex items-center space-x-1">
+                    <span>⚙️</span>
+                    <span>Preferences</span>
+                  </span>
+                  <ChevronDown className={`w-3 h-3 text-earth-500 transition-transform ${showPrefs ? 'rotate-180' : ''}`} />
+                </div>
+                
+                {showPrefs && (
+                  <div className="px-4 py-3 bg-white border-t border-earth-100 animate-in slide-in-from-top-1 duration-200">
+                    <label className="block text-xs font-medium text-earth-700 mb-1.5">Notification Level</label>
+                    <select 
+                      value={prefLevel}
+                      onChange={(e) => setPrefLevel(e.target.value)}
+                      className="w-full bg-white border border-earth-200 rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-earth-500 text-earth-800"
+                    >
+                      <option>All Alerts</option>
+                      <option>Important Only</option>
+                      <option>Mute All</option>
+                    </select>
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MapPin, Plus } from 'lucide-react';
+import { X, MapPin, Plus, Pencil, Trash2 } from 'lucide-react';
 
 const SpaceManagerModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -24,14 +24,28 @@ const SpaceManagerModal = ({ isOpen, onClose }) => {
                   <MapPin className="w-5 h-5 text-earth-500" />
                   <span className="font-medium text-earth-800">Balcony 1 - South Facing</span>
                 </div>
-                <button className="text-xs text-earth-500 hover:text-earth-800 underline">Edit</button>
+                <div className="flex space-x-1">
+                  <button className="p-1.5 text-earth-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                  <button className="p-1.5 text-earth-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
               <div className="flex items-center justify-between p-3 border border-earth-200 rounded-xl bg-earth-50/50">
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-earth-500" />
                   <span className="font-medium text-earth-800">Garden Raised Bed</span>
                 </div>
-                <button className="text-xs text-earth-500 hover:text-earth-800 underline">Edit</button>
+                <div className="flex space-x-1">
+                  <button className="p-1.5 text-earth-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                  <button className="p-1.5 text-earth-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

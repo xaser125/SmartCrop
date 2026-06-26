@@ -58,6 +58,30 @@ const WeatherAlerts = () => {
             <span className="text-sm text-earth-100">Humidity 45%</span>
           </div>
         </div>
+
+        {/* Daily Forecast */}
+        <div className="mt-6 pt-4 border-t border-earth-500/50 flex justify-between">
+          <div className="bg-white/20 px-3 py-2 rounded-xl flex flex-col items-center justify-center min-w-[4rem] backdrop-blur-sm shadow-sm border border-white/10">
+            <span className="text-[10px] text-earth-100 font-medium uppercase mb-1">Morning</span>
+            <span className="text-sm font-bold text-white">22°C</span>
+            <span className="text-base mt-0.5">☀️</span>
+          </div>
+          <div className="bg-white/20 px-3 py-2 rounded-xl flex flex-col items-center justify-center min-w-[4rem] backdrop-blur-sm shadow-sm border border-white/10">
+            <span className="text-[10px] text-earth-100 font-medium uppercase mb-1">Afternoon</span>
+            <span className="text-sm font-bold text-white">28°C</span>
+            <span className="text-base mt-0.5">☀️</span>
+          </div>
+          <div className="bg-white/20 px-3 py-2 rounded-xl flex flex-col items-center justify-center min-w-[4rem] backdrop-blur-sm shadow-sm border border-white/10">
+            <span className="text-[10px] text-earth-100 font-medium uppercase mb-1">Evening</span>
+            <span className="text-sm font-bold text-white">24°C</span>
+            <span className="text-base mt-0.5">🌤️</span>
+          </div>
+          <div className="bg-white/20 px-3 py-2 rounded-xl flex flex-col items-center justify-center min-w-[4rem] backdrop-blur-sm shadow-sm border border-white/10">
+            <span className="text-[10px] text-earth-100 font-medium uppercase mb-1">Night</span>
+            <span className="text-sm font-bold text-white">18°C</span>
+            <span className="text-base mt-0.5">🌙</span>
+          </div>
+        </div>
       </div>
 
       {/* Alerts Carousel */}

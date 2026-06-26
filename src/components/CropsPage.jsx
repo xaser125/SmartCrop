@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Sprout, MessageSquare, Droplets, Sun, AlertCircle, BookOpen, Send, Brain } from 'lucide-react';
+import AddCropModal from './AddCropModal';
 
-const crops = [
+const initialCrops = [
   { id: 1, name: 'Tomato (Roma)', emoji: '🍅', stage: 'Flowering', day: 45, totalDays: 85, status: '🟢 Optimal', progressColor: 'bg-green-500' },
   { id: 2, name: 'Potato (Russet)', emoji: '🥔', stage: 'Vegetative', day: 30, totalDays: 120, status: '🟡 Needs Water', progressColor: 'bg-yellow-500' },
   { id: 3, name: 'Onion (Red)', emoji: '🧅', stage: 'Ready to Harvest', day: 100, totalDays: 100, status: '✨ Perfect', progressColor: 'bg-earth-600', readyToHarvest: true },
@@ -10,6 +11,20 @@ const crops = [
 
 const CropsPage = () => {
   const [expandedJournalId, setExpandedJournalId] = useState(1);
+  const [cropsList, setCropsList] = useState(initialCrops);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [chatState, setAiChatState] = useState({});
+
+  const handleAddCrop = (newCrop) => {
+    setCropsList([...cropsList, { ...newCrop, id: Date.now() }]);
+  };
+
+  const handleAskAI = (cropId) => {
+    setAiChatState(prev => ({ ...prev, [cropId]: 'typing' }));
+    setTimeout(() => {
+      setAiChatState(prev => ({ ...prev, [cropId]: 'done' }));
+    }, 2000);
+  };
 
   return (
     <div className="animate-in fade-in zoom-in-95 duration-300">
@@ -18,14 +33,17 @@ const CropsPage = () => {
           <h2 className="text-3xl font-bold text-earth-900">My Active Plantations</h2>
           <p className="text-earth-600 mt-1">Track and manage your current crops across all areas.</p>
         </div>
-        <button className="bg-earth-700 hover:bg-earth-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="bg-earth-700 hover:bg-earth-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+        >
           <Sprout className="w-5 h-5" />
           <span className="hidden sm:inline">Add New Crop</span>
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {crops.map((crop) => (
+        {cropsList.map((crop) => (
           <div key={crop.id} className={`bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow ${crop.readyToHarvest ? 'border-2 border-earth-500' : 'border border-earth-100'}`}>
             <div className={`p-5 border-b flex items-center justify-between ${crop.readyToHarvest ? 'bg-earth-100/50 border-earth-200' : 'bg-earth-50/50 border-earth-50'}`}>
               <div className="flex items-center space-x-3">
@@ -76,11 +94,37 @@ const CropsPage = () => {
                   <BookOpen className="w-4 h-4 text-earth-600" />
                   <span>{expandedJournalId === crop.id ? 'Hide Care Journal' : 'View Care Journal'}</span>
                 </button>
-                <button className="w-full py-2 px-4 bg-white border border-earth-200 hover:bg-earth-50 text-earth-700 rounded-xl text-sm font-medium transition-colors flex items-center justify-center space-x-2 shadow-sm">
+                <button 
+                  onClick={() => handleAskAI(crop.id)}
+                  className="w-full py-2 px-4 bg-white border border-earth-200 hover:bg-earth-50 text-earth-700 rounded-xl text-sm font-medium transition-colors flex items-center justify-center space-x-2 shadow-sm"
+                >
                   <MessageSquare className="w-4 h-4 text-earth-500" />
                   <span>Ask AI about my {crop.name.split(' ')[0]}</span>
                 </button>
               </div>
+
+              {chatState[crop.id] && (
+                <div className="mt-4 pt-4 border-t border-earth-100 animate-in slide-in-from-top-2 duration-300 space-y-3">
+                  <div className="flex justify-end">
+                    <div className="bg-earth-100 text-earth-800 text-sm px-3 py-2 rounded-xl rounded-tr-sm max-w-[90%]">
+                      Why are the bottom leaves turning yellow?
+                    </div>
+                  </div>
+                  <div className="flex justify-start">
+                    <div className="bg-clay-50 border border-clay-100 text-clay-900 text-sm px-3 py-2 rounded-xl rounded-tl-sm max-w-[95%]">
+                      {chatState[crop.id] === 'typing' ? (
+                        <div className="flex space-x-1.5 items-center h-5">
+                          <div className="w-1.5 h-1.5 bg-clay-500 rounded-full animate-bounce"></div>
+                          <div className="w-1.5 h-1.5 bg-clay-500 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></div>
+                          <div className="w-1.5 h-1.5 bg-clay-500 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+                        </div>
+                      ) : (
+                        <span>Based on your Care Journal, you watered 1.5L yesterday. Yellowing bottom leaves typically indicate overwatering for this growth stage. Hold off watering for 3 days.</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {expandedJournalId === crop.id && (
                 <div className="mt-4 pt-4 border-t border-earth-100 animate-in slide-in-from-top-2 duration-200">
@@ -117,6 +161,12 @@ const CropsPage = () => {
           </div>
         ))}
       </div>
+
+      <AddCropModal 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+        onAddCrop={handleAddCrop} 
+      />
     </div>
   );
 };
