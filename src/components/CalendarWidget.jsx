@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, Sun, CloudRain, Cloud, Sprout, CheckCircle2,
 const CalendarWidget = () => {
   const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const dates = Array.from({ length: 31 }, (_, i) => i + 1);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(null);
 
   const [events, setEvents] = useState([
     { id: 1, date: 18, title: 'Tomato Seeding', location: 'Raised beds area', icon: 'Sprout', color: 'text-green-600', bg: 'bg-green-100', dot: 'bg-green-500' },
@@ -46,8 +46,30 @@ const CalendarWidget = () => {
     return <Sun className="w-5 h-5 text-yellow-500" />;
   };
 
+  const getWeatherData = (day) => {
+    if (day % 3 === 0) {
+      return {
+        icon: '🌧️',
+        title: 'Weather Context: Heavy rain expected (15mm).',
+        description: 'Halt automated irrigation and protect fragile seedlings.'
+      };
+    }
+    if (day % 5 === 0) {
+      return {
+        icon: '☁️',
+        title: 'Weather Context: Overcast and cool.',
+        description: 'Good conditions for pruning and maintenance.'
+      };
+    }
+    return {
+      icon: '☀️',
+      title: 'Weather Context: High 28°C / Low 16°C.',
+      description: 'Optimal conditions for outdoor planting.'
+    };
+  };
+
   const handleDateClick = (date) => {
-    setSelectedDate(`Oct ${date}, 2026`);
+    setSelectedDay(date);
   };
 
   return (
@@ -94,7 +116,7 @@ const CalendarWidget = () => {
               onClick={() => handleDateClick(date)}
               className={`h-12 lg:h-14 rounded-lg flex flex-col items-center justify-center relative cursor-pointer hover:bg-earth-100 transition-colors ${
                 date === 15 ? 'bg-earth-600 text-white font-bold hover:bg-earth-700' : 'text-earth-800 bg-clay-50'
-              } ${selectedDate === 'Oct ' + date + ', 2026' ? 'ring-2 ring-earth-500 ring-offset-1' : ''}`}
+              } ${selectedDay === date ? 'ring-2 ring-earth-500 ring-offset-1' : ''}`}
             >
               <span className="text-sm z-10">{date}</span>
               
@@ -111,18 +133,21 @@ const CalendarWidget = () => {
           ))}
         </div>
 
-        {selectedDate && (
-          <div className="mt-4 p-3 bg-earth-50 rounded-lg text-sm text-earth-700 text-center border border-earth-200 animate-in fade-in slide-in-from-top-2 duration-200 shadow-sm">
-            <div className="font-semibold mb-2">Selected Date: {selectedDate}</div>
-            <div className="bg-white/60 p-2.5 rounded-md border border-earth-100 text-xs text-earth-800 flex items-start space-x-2 text-left">
-              <span className="text-sm leading-none mt-0.5">🌤️</span>
-              <div>
-                <span className="font-semibold text-earth-900 block mb-0.5">Weather Context: High 26°C / Low 16°C.</span>
-                <span className="text-earth-600 font-medium">Optimal conditions for outdoor tasks.</span>
+        {selectedDay && (() => {
+          const weather = getWeatherData(selectedDay);
+          return (
+            <div className="mt-4 p-3 bg-earth-50 rounded-lg text-sm text-earth-700 text-center border border-earth-200 animate-in fade-in slide-in-from-top-2 duration-200 shadow-sm">
+              <div className="font-semibold mb-2">Selected Date: Oct {selectedDay}, 2026</div>
+              <div className="bg-white/60 p-2.5 rounded-md border border-earth-100 text-xs text-earth-800 flex items-start space-x-2 text-left">
+                <span className="text-sm leading-none mt-0.5">{weather.icon}</span>
+                <div>
+                  <span className="font-semibold text-earth-900 block mb-0.5">{weather.title}</span>
+                  <span className="text-earth-600 font-medium">{weather.description}</span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         <div className="mt-5 border-t border-clay-100 pt-4 space-y-3">
           <div className="flex items-center justify-between">
